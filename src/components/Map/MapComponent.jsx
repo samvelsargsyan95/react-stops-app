@@ -3,15 +3,28 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './MapComponent.scss';
 
-const MapComponent = ({ locations, isCompleted = [], activeLocationIndex }) => {
+const MapComponent = ({ locations, isCompleted = [], activeLocationIndex = null }) => {
   const mapContainerRef = useRef(null);
+  let centeredLocation = []
+  
+  if (activeLocationIndex === null) {
+    centeredLocation = [locations[0].lng, locations[0].lat]
+  }
+
+  if (activeLocationIndex !== null) {
+    centeredLocation = [locations[activeLocationIndex].lng, locations[activeLocationIndex].lat]
+  }
+
+  if (activeLocationIndex === null && isCompleted.length) {
+    centeredLocation = [locations[isCompleted.length - 1].lng, locations[isCompleted.length - 1].lat]
+  }
 
   useEffect(() => {
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
       style: 'https://tiles.stadiamaps.com/styles/osm_bright.json',
-      center: [locations[0].lng, locations[0].lat],
-      zoom: 14,
+      center: centeredLocation,
+      zoom: 15,
     });
   
     // Wait for the map's style to load before adding markers and layers

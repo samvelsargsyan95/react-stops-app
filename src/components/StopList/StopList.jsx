@@ -61,7 +61,7 @@ export default function StopList({ data }) {
   };
 
   const complete = (index) => {
-    isCompleted.push(index)
+    setIsCompleted(prevIsCompleted => [...prevIsCompleted, index]);
     
     if (expanded !== data.length -1) {
       setExpanded(expanded + 1) 
@@ -73,8 +73,10 @@ export default function StopList({ data }) {
   } 
 
   const changeActiveTab = (tab) => {
-    setExpanded(null)
-    setActiveTab(tab)
+    if (tab !== activeTab) {
+      setExpanded(null)
+      setActiveTab(tab)
+    }
   }
 
   const listStyles = {
