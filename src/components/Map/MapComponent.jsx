@@ -17,9 +17,14 @@ const MapComponent = ({ locations, isCompleted = [], activeLocationIndex }) => {
     // Wait for the map's style to load before adding markers and layers
     map.on('load', () => {
       locations.forEach((location, index) => {
+        const classNames = [
+          isCompleted.includes(index) ? 'completed' : 'marker',
+          activeLocationIndex === index ? 'selected-location' : 'marker',
+        ].join(' ');
+
         new maplibregl.Marker({ 
           color: `rgb(56, 33, 255)`,
-          className: `${isCompleted.includes(index) || activeLocationIndex === index ? 'completed' : 'marker'}`,
+          className: classNames,
         }).setLngLat([location.lng, location.lat]).addTo(map);
   
         if (index < locations.length - 1) {

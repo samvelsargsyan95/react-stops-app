@@ -5,3 +5,11 @@
         position: relative;
     }
 }
+
+.selected-location {
+    circle {
+        fill: rgb(255, 33, 33);
+        filter: drop-shadow(0 0 4px white);
+        position: relative;
+    }
+}
